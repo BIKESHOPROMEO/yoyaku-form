@@ -1,9 +1,12 @@
-// 仮の選択日時（カレンダーUIから取得する値に置き換えてください）
-const selectedDate = "2025年8月10日";
-const selectedTime = "14:00";
+// URLパラメータから選択日時を取得
+const params = new URLSearchParams(window.location.search);
+const selectedDate = params.get("date");
+const selectedTime = params.get("time");
 
 // 表示に反映
-document.getElementById("selectedDateTime").textContent = `${selectedDate} ${selectedTime}`;
+if (selectedDate && selectedTime) {
+  document.getElementById("selectedDateTime").textContent = `${selectedDate} ${selectedTime}`;
+}
 
 // 送信処理
 document.getElementById("reservationForm").addEventListener("submit", function(e) {
