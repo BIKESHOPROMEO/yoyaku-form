@@ -18,7 +18,7 @@ document.getElementById("reservationForm").addEventListener("submit", function(e
 
   data.append("selectedDateTime", `${selectedDate} ${selectedTime}`);
 
-  fetch("https://script.google.com/macros/s/AKfycby8-NEQ8MpDHyN18Qh4vwRVeKHMvFilDgkkr35llQsEMqmnI-cY617xh9h9xhhgXYOn2A/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbxecAIz-Bxj0v__zJ9gokam9M19ULT9gtfPlfpLjyNyeKjsKc3JlKOQrfrlK9ghAdsv8g/exec", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
