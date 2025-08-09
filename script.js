@@ -11,6 +11,10 @@ if (selectedDate && selectedTime) {
 document.getElementById("reservationForm").addEventListener("submit", function(e) {
   e.preventDefault();
 
+// 送信ボタンを無効化（連打防止）
+  document.querySelector("button[type='submit']").disabled = true;
+
+
   // 送信中ダイアログ表示
   document.getElementById("sendingDialog").style.display = "block";
 
