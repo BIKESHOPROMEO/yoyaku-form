@@ -35,17 +35,20 @@ document.getElementById("reservationForm").addEventListener("submit", function(e
     body: data.toString()
   })
   .then(res => {
-    // ダイアログ非表示
-    document.getElementById("sendingDialog").style.display = "none";
+  document.getElementById("sendingDialog").style.display = "none";
 
-    if (res.ok) {
-      alert("予約を送信しました！");
-    } else {
-      alert("送信に失敗しました");
-    }
-  })
+  if (res.ok) {
+    alert("予約を送信しました！");
+  } else {
+    // 送信失敗時：ボタンを再有効化
+    document.querySelector("button[type='submit']").disabled = false;
+    alert("送信に失敗しました");
+  }
+})
   .catch(err => {
-    document.getElementById("sendingDialog").style.display = "none";
-    alert("エラーが発生しました");
-  });
+  document.getElementById("sendingDialog").style.display = "none";
+
+  // エラー時：ボタンを再有効化
+  document.querySelector("button[type='submit']").disabled = false;
+  alert("エラーが発生しました");
 });
