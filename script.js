@@ -7,18 +7,16 @@ if (selectedDate && selectedTime) {
   document.getElementById("selectedDateTime").textContent = `${selectedDate} ${selectedTime}`;
 }
 
-// 予約フォーム送信処理
-document.getElementById("reservationForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-
-// 送信ボタンを無効化（連打防止）
-  document.querySelector("button[type='submit']").disabled = true;
-
+// 送信ボタンのクリック処理
+document.getElementById("submitBtn").addEventListener("click", function() {
+  // 送信ボタンを無効化（連打防止）
+  this.disabled = true;
 
   // 送信中ダイアログ表示
   document.getElementById("sendingDialog").style.display = "block";
 
-  const formData = new FormData(this);
+  const form = document.getElementById("reservationForm");
+  const formData = new FormData(form);
   const data = new URLSearchParams();
 
   for (const [key, value] of formData.entries()) {
@@ -35,20 +33,19 @@ document.getElementById("reservationForm").addEventListener("submit", function(e
     body: data.toString()
   })
   .then(res => {
-  document.getElementById("sendingDialog").style.display = "none";
+    document.getElementById("sendingDialog").style.display = "none";
 
-  if (res.ok) {
-    alert("予約を送信しました！");
-  } else {
-    // 送信失敗時：ボタンを再有効化
-    document.querySelector("button[type='submit']").disabled = false;
-    alert("送信に失敗しました");
-  }
-})
+    if (res.ok) {
+      alert("予約を送信しました！");
+      // 必要ならここで画面遷移なども可能
+    } else {
+      this.disabled = false;
+      alert("送信に失敗しました");
+    }
+  })
   .catch(err => {
-  document.getElementById("sendingDialog").style.display = "none";
-
-  // エラー時：ボタンを再有効化
-  document.querySelector("button[type='submit']").disabled = false;
-  alert("エラーが発生しました");
+    document.getElementById("sendingDialog").style.display = "none";
+    this.disabled = false;
+    alert("エラーが発生しました");
+  });
 });
