@@ -23,6 +23,13 @@ document.getElementById("submitBtn").addEventListener("click", function() {
     data.append(key, value);
   }
 
+if (!selectedDate || !selectedTime) {
+  alert("日付と時間が選択されていません");
+  document.getElementById("submitBtn").disabled = false;
+  document.getElementById("sendingDialog").style.display = "none";
+  return;
+}
+
   data.append("selectedDateTime", `${selectedDate} ${selectedTime}`);
 
   fetch("https://script.google.com/macros/s/AKfycbyE1-J7AqYT9v5SwHZtcC-SjH73CI11KG8jR0dES6fOkEMnZhvsx9gMplEHatxVNRaFaw/exec", {
