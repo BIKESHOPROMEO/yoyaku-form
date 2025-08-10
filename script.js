@@ -32,20 +32,20 @@ document.getElementById("submitBtn").addEventListener("click", function() {
     },
     body: data.toString()
   })
-  .then(res => {
-    document.getElementById("sendingDialog").style.display = "none";
+  .then(res => res.json())
+.then(data => {
+  document.getElementById("sendingDialog").style.display = "none";
 
-    if (res.ok) {
-      alert("予約を送信しました！");
-      // 必要ならここで画面遷移なども可能
-    } else {
-      this.disabled = false;
-      alert("送信に失敗しました");
-    }
-  })
-  .catch(err => {
-    document.getElementById("sendingDialog").style.display = "none";
-    this.disabled = false;
-    alert("エラーが発生しました");
-  });
+  if (data.status === "success") {
+    alert(data.message); // "登録完了" など
+    // 必要なら画面遷移など
+  } else {
+    document.getElementById("submitBtn").disabled = false;
+    alert("送信に失敗しました：" + (data.error || "不明なエラー"));
+  }
+})
+.catch(err => {
+  document.getElementById("sendingDialog").style.display = "none";
+  document.getElementById("submitBtn").disabled = false;
+  alert("通信エラーが発生しました");
 });
