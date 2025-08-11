@@ -82,3 +82,4 @@ document.addEventListener("DOMContentLoaded", () => {
   this.disabled = false;
   alert("通信エラー：" + err.message);
 });
+});
