@@ -72,10 +72,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (result.status === "success") {
     alert(result.message);
-    // 必要なら画面遷移など
   } else {
     this.disabled = false;
     alert("送信に失敗しました：" + (result.error || "不明なエラー"));
-});
-  });
+  }
+})
+.catch(err => {
+  document.getElementById("sendingDialog").style.display = "none";
+  this.disabled = false;
+  alert("通信エラー：" + err.message);
 });
