@@ -55,7 +55,16 @@ document.addEventListener("DOMContentLoaded", () => {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: data.toString()
+      body: new URLSearchParams({
+    action: "create",
+    selectedDateTime: "2025-08-12 10:00",
+    name: "山田太郎",
+    phone: "090-1234-5678",
+    email: "yamada@example.com",
+    carModel: "ホンダCB400",
+    workType: "オイル交換",
+    note: "早め希望"
+  }).toString()
     })
     .then(async res => {
   document.getElementById("sendingDialog").style.display = "none";
