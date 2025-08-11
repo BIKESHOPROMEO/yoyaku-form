@@ -77,4 +77,5 @@ document.addEventListener("DOMContentLoaded", () => {
     this.disabled = false;
     alert("送信に失敗しました：" + (result.error || "不明なエラー"));
 });
+  });
 });
