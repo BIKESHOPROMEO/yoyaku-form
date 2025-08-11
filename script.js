@@ -57,21 +57,24 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       body: data.toString()
     })
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById("sendingDialog").style.display = "none";
-      if (data.status === "success") {
-        alert(data.message); // 例："登録完了しました"
-        // 必要なら画面遷移など
-      } else {
-        this.disabled = false;
-        alert("送信に失敗しました：" + (data.error || "不明なエラー"));
-      }
-    })
-    .catch(err => {
-      document.getElementById("sendingDialog").style.display = "none";
-      this.disabled = false;
-      alert("通信エラーが発生しました");
-    });
-  });
-});
+    .then(async res => {
+  document.getElementById("sendingDialog").style.display = "none";
+
+  const text = await res.text();
+  console.log("レスポンス内容:", text);
+
+  let result;
+  try {
+    result = JSON.parse(text);
+  } catch (e) {
+    throw new Error("JSONの解析に失敗しました");
+  }
+
+  if (result.status === "success") {
+    alert(result.message);
+    // 必要なら画面遷移など
+  } else {
+    this.disabled = false;
+    alert("送信に失敗しました：" + (result.error || "不明なエラー"));
+  }
+})
