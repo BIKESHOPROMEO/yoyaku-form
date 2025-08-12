@@ -1,4 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const submitBtn = document.getElementById("submitBtn");
+  if (!submitBtn) {
+    console.error("submitBtn が見つかりませんでした");
+    return;
+  }
+
+  // URLパラメータから選択された日時を取得
   const params = new URLSearchParams(window.location.search);
   const selectedDate = params.get("date");
   const selectedTime = params.get("time");
@@ -18,7 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("selectedDateTime").textContent = formatted;
   }
 
-  document.getElementById("submitBtn").addEventListener("click", function() {
+  // ? ここが唯一のイベントリスナー定義！
+  submitBtn.addEventListener("click", function() {
     this.disabled = true;
     document.getElementById("sendingDialog").style.display = "block";
 
@@ -59,13 +67,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (result.status === "success") {
         alert(result.message);
       } else {
-        document.getElementById("submitBtn").disabled = false;
+        this.disabled = false;
         alert("送信に失敗しました：" + (result.error || "不明なエラー"));
       }
     })
     .catch(err => {
       document.getElementById("sendingDialog").style.display = "none";
-      document.getElementById("submitBtn").disabled = false;
+      this.disabled = false;
       alert("通信エラー：" + err.message);
     });
   });
