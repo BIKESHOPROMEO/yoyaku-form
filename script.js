@@ -1,59 +1,46 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const submitBtn = document.getElementById("submitBtn");
-  if (!submitBtn) {
-    console.error("submitBtn が見つかりませんでした");
-    return;
-  }
-
+<script>
   // URLパラメータから選択された日時を取得
   const params = new URLSearchParams(window.location.search);
   const selectedDate = params.get("date");
   const selectedTime = params.get("time");
 
-  console.log("selectedDate:", selectedDate);
-  console.log("selectedTime:", selectedTime);
-
-  const formatDate = (isoDateStr) => {
-    const [year, month, day] = isoDateStr.split("-");
-    const d = new Date(Number(year), Number(month) - 1, Number(day));
-    const days = ["日","月","火","水","木","金","土"];
-    return `${month}/${day}(${days[d.getDay()]})`;
-  };
-
   if (selectedDate && selectedTime) {
-    const formatted = `${formatDate(selectedDate)} ${selectedTime}`;
-    document.getElementById("selectedDateTime").textContent = formatted;
+    document.getElementById("selectedDateTime").textContent = `${selectedDate} ${selectedTime}`;
   }
 
-  // ? ここが唯一のイベントリスナー定義！
-  submitBtn.addEventListener("click", function() {
+  // 送信ボタンのクリック処理
+  document.getElementById("submitBtn").addEventListener("click", function () {
     this.disabled = true;
     document.getElementById("sendingDialog").style.display = "block";
 
     const form = document.getElementById("reservationForm");
     const formData = new FormData(form);
+    const data = new URLSearchParams();
 
-    if (!selectedDate || !selectedTime) {
-      alert("日付と時間が選択されていません");
-      this.disabled = false;
-      document.getElementById("sendingDialog").style.display = "none";
-      return;
+    for (const [key, value] of formData.entries()) {
+      data.append(key, value);
     }
 
-    const form = document.getElementById("reservationForm");
-const formData = new FormData(form);
-formData.append("action", "create");
-formData.append("selectedDateTime", `${selectedDate} ${selectedTime}`);
+    data.append("action", "create");
+    data.append("selectedDateTime", `${selectedDate} ${selectedTime}`);
 
-fetch("https://script.google.com/macros/s/AKfycbyE1-J7AqYT9v5SwHZtcC-SjH73CI11KG8jR0dES6fOkEMnZhvsx9gMplEHatxVNRaFaw/exec", {
-  method: "POST",
-  body: formData
-})
-.then(async res => {
-  const text = await res.text();
-  const result = JSON.parse(text);
-  alert(result.message);
-})
-.catch(err => {
-  alert("通信エラー：" + err.message);
-});
+    fetch("https://script.google.com/macros/s/AKfycbyE1-J7AqYT9v5SwHZtcC-SjH73CI11KG8jR0dES6fOkEMnZhvsx9gMplEHatxVNRaFaw/exec", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: data.toString()
+    })
+      .then(res => res.text())
+      .then(text => {
+        document.getElementById("sendingDialog").style.display = "none";
+        alert(text);
+        // 必要なら画面遷移などもここで
+      })
+      .catch(err => {
+        document.getElementById("sendingDialog").style.display = "none";
+        this.disabled = false;
+        alert("エラーが発生しました：" + err.message);
+      });
+  });
+</script>
