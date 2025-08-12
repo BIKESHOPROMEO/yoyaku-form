@@ -1,42 +1,30 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // URLパラメータから選択された日時を取得
   const params = new URLSearchParams(window.location.search);
   const selectedDate = params.get("date");
   const selectedTime = params.get("time");
 
-  // ?? デバッグ用ログ（ここに追加！）
   console.log("selectedDate:", selectedDate);
   console.log("selectedTime:", selectedTime);
 
-
-  // 日付を「8/12(月)」形式に整形する関数
   const formatDate = (isoDateStr) => {
-  const [year, month, day] = isoDateStr.split("-");
-  const d = new Date(Number(year), Number(month) - 1, Number(day));
-  const days = ["日","月","火","水","木","金","土"];
-  return `${month}/${day}(${days[d.getDay()]})`;
-};
+    const [year, month, day] = isoDateStr.split("-");
+    const d = new Date(Number(year), Number(month) - 1, Number(day));
+    const days = ["日","月","火","水","木","金","土"];
+    return `${month}/${day}(${days[d.getDay()]})`;
+  };
 
-  // 表示処理
   if (selectedDate && selectedTime) {
     const formatted = `${formatDate(selectedDate)} ${selectedTime}`;
     document.getElementById("selectedDateTime").textContent = formatted;
   }
 
-  // 送信ボタンのクリック処理
   document.getElementById("submitBtn").addEventListener("click", function() {
     this.disabled = true;
     document.getElementById("sendingDialog").style.display = "block";
 
     const form = document.getElementById("reservationForm");
     const formData = new FormData(form);
-    const data = new URLSearchParams();
 
-    for (const [key, value] of formData.entries()) {
-      data.append(key, value);
-    }
-
-    // 日時未選択チェック
     if (!selectedDate || !selectedTime) {
       alert("日付と時間が選択されていません");
       this.disabled = false;
@@ -44,50 +32,41 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // 送信データに日時を追加（ISO形式＋時間）
-    data.append("action", "create");
-    data.append("selectedDateTime", `${selectedDate} ${selectedTime}`);
-   
+    const jsonData = Object.fromEntries(formData.entries());
+    jsonData.action = "create";
+    jsonData.selectedDateTime = `${selectedDate} ${selectedTime}`;
 
-    // Google Apps Script へ送信
-fetch("https://script.google.com/macros/s/AKfycbyE1-J7AqYT9v5SwHZtcC-SjH73CI11KG8jR0dES6fOkEMnZhvsx9gMplEHatxVNRaFaw/exec", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    action: "create",
-    selectedDateTime: "2025-08-12 10:00",
-    name: "山田太郎",
-    phone: "090-1234-5678",
-    email: "yamada@example.com",
-    carModel: "ホンダCB400",
-    workType: "オイル交換",
-    note: "早め希望"
-  })
-})
-.then(async res => {
-  document.getElementById("sendingDialog").style.display = "none";
+    fetch("https://script.google.com/macros/s/AKfycbyE1-J7AqYT9v5SwHZtcC-SjH73CI11KG8jR0dES6fOkEMnZhvsx9gMplEHatxVNRaFaw/exec", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(jsonData)
+    })
+    .then(async res => {
+      document.getElementById("sendingDialog").style.display = "none";
 
-  const text = await res.text();
-  console.log("レスポンス内容:", text);
+      const text = await res.text();
+      console.log("レスポンス内容:", text);
 
-  let result;
-  try {
-    result = JSON.parse(text);
-  } catch (e) {
-    throw new Error("JSONの解析に失敗しました");
-  }
+      let result;
+      try {
+        result = JSON.parse(text);
+      } catch (e) {
+        throw new Error("JSONの解析に失敗しました");
+      }
 
-  if (result.status === "success") {
-    alert(result.message);
-  } else {
-    document.getElementById("submitButton").disabled = false;
-    alert("送信に失敗しました：" + (result.error || "不明なエラー"));
-  }
-})
-.catch(err => {
-  document.getElementById("sendingDialog").style.display = "none";
-  document.getElementById("submitButton").disabled = false;
-  alert("通信エラー：" + err.message);
+      if (result.status === "success") {
+        alert(result.message);
+      } else {
+        document.getElementById("submitBtn").disabled = false;
+        alert("送信に失敗しました：" + (result.error || "不明なエラー"));
+      }
+    })
+    .catch(err => {
+      document.getElementById("sendingDialog").style.display = "none";
+      document.getElementById("submitBtn").disabled = false;
+      alert("通信エラー：" + err.message);
+    });
+  });
 });
