@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(jsonData),
-      mode: "no-cors"
+      mode: "cors"
     })
     .then(async res => {
       document.getElementById("sendingDialog").style.display = "none";
