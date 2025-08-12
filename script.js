@@ -40,42 +40,20 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const jsonData = Object.fromEntries(formData.entries());
-    jsonData.action = "create";
-    jsonData.selectedDateTime = `${selectedDate} ${selectedTime}`;
+    const form = document.getElementById("reservationForm");
+const formData = new FormData(form);
+formData.append("action", "create");
+formData.append("selectedDateTime", `${selectedDate} ${selectedTime}`);
 
-    fetch("https://script.google.com/macros/s/AKfycbyE1-J7AqYT9v5SwHZtcC-SjH73CI11KG8jR0dES6fOkEMnZhvsx9gMplEHatxVNRaFaw/exec", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(jsonData),
-      mode: "cors"
-    })
-    .then(async res => {
-      document.getElementById("sendingDialog").style.display = "none";
-
-      const text = await res.text();
-      console.log("レスポンス内容:", text);
-
-      let result;
-      try {
-        result = JSON.parse(text);
-      } catch (e) {
-        throw new Error("JSONの解析に失敗しました");
-      }
-
-      if (result.status === "success") {
-        alert(result.message);
-      } else {
-        this.disabled = false;
-        alert("送信に失敗しました：" + (result.error || "不明なエラー"));
-      }
-    })
-    .catch(err => {
-      document.getElementById("sendingDialog").style.display = "none";
-      this.disabled = false;
-      alert("通信エラー：" + err.message);
-    });
-  });
+fetch("https://script.google.com/macros/s/AKfycbyE1-J7AqYT9v5SwHZtcC-SjH73CI11KG8jR0dES6fOkEMnZhvsx9gMplEHatxVNRaFaw/exec", {
+  method: "POST",
+  body: formData
+})
+.then(async res => {
+  const text = await res.text();
+  const result = JSON.parse(text);
+  alert(result.message);
+})
+.catch(err => {
+  alert("通信エラー：" + err.message);
 });
