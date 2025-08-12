@@ -50,12 +50,12 @@ document.addEventListener("DOMContentLoaded", () => {
    
 
     // Google Apps Script へ送信
-    fetch("https://script.google.com/macros/s/AKfycbyE1-J7AqYT9v5SwHZtcC-SjH73CI11KG8jR0dES6fOkEMnZhvsx9gMplEHatxVNRaFaw/exec", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: new URLSearchParams({
+fetch("https://script.google.com/macros/s/AKfycbyE1-J7AqYT9v5SwHZtcC-SjH73CI11KG8jR0dES6fOkEMnZhvsx9gMplEHatxVNRaFaw/exec", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
     action: "create",
     selectedDateTime: "2025-08-12 10:00",
     name: "山田太郎",
@@ -64,9 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
     carModel: "ホンダCB400",
     workType: "オイル交換",
     note: "早め希望"
-  }).toString()
-    })
-    .then(async res => {
+  })
+})
+.then(async res => {
   document.getElementById("sendingDialog").style.display = "none";
 
   const text = await res.text();
@@ -82,14 +82,12 @@ document.addEventListener("DOMContentLoaded", () => {
   if (result.status === "success") {
     alert(result.message);
   } else {
-    this.disabled = false;
+    document.getElementById("submitButton").disabled = false;
     alert("送信に失敗しました：" + (result.error || "不明なエラー"));
   }
 })
 .catch(err => {
   document.getElementById("sendingDialog").style.display = "none";
-  this.disabled = false;
+  document.getElementById("submitButton").disabled = false;
   alert("通信エラー：" + err.message);
-});
-});
 });
