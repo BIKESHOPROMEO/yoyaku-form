@@ -1,5 +1,7 @@
 <script>
   // URLパラメータから選択された日時を取得
+  document.addEventListener("DOMContentLoaded", function () {
+
   const params = new URLSearchParams(window.location.search);
   const selectedDate = params.get("date");
   const selectedTime = params.get("time");
@@ -43,4 +45,5 @@
         alert("エラーが発生しました：" + err.message);
       });
   });
+});
 </script>
