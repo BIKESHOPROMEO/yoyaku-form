@@ -1,4 +1,3 @@
-<script>
   // URLパラメータから選択された日時を取得
   document.addEventListener("DOMContentLoaded", function () {
 
@@ -46,4 +45,3 @@
       });
   });
 });
-</script>
