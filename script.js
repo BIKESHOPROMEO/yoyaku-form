@@ -35,7 +35,7 @@
     data.append("action", "create");
     data.append("selectedDateTime", `${selectedDate} ${selectedTime}`);
 
-    fetch("https://script.google.com/macros/s/AKfycbyE1-J7AqYT9v5SwHZtcC-SjH73CI11KG8jR0dES6fOkEMnZhvsx9gMplEHatxVNRaFaw/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbwspV-0AlfTcuB3PlTMKmzot-a0b9h0Kv3zRyMpmJZWvRWorbfaNBVxNwvXm2DXMasO/exec", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
