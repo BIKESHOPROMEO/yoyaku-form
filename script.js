@@ -40,7 +40,7 @@
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: data.toString()
+      body: data
     })
       .then(res => res.text())
       .then(text => {
