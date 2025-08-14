@@ -37,10 +37,7 @@
 
     fetch("https://script.google.com/macros/s/AKfycbwspV-0AlfTcuB3PlTMKmzot-a0b9h0Kv3zRyMpmJZWvRWorbfaNBVxNwvXm2DXMasO/exec", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: data
+            body: data
     })
       .then(res => res.text())
       .then(text => {
