@@ -5,9 +5,19 @@
   const selectedDate = params.get("date");
   const selectedTime = params.get("time");
 
+  function formatJapaneseDate(dateStr, timeStr) {
+  const date = new Date(`${dateStr}T${timeStr}`);
+  const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const weekday = weekdays[date.getDay()];
+  return `${month}/${day}（${weekday}） ${timeStr}`;
+}
+
   if (selectedDate && selectedTime) {
-    document.getElementById("selectedDateTime").textContent = `${selectedDate} ${selectedTime}`;
-  }
+  const displayText = formatJapaneseDate(selectedDate, selectedTime);
+  document.getElementById("selectedDateTime").textContent = displayText;
+}
 
   // 送信ボタンのクリック処理
   document.getElementById("submitBtn").addEventListener("click", function () {
