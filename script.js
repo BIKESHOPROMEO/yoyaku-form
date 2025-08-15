@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     fetch("https://script.google.com/macros/s/AKfycbzKQ4-J2TASlIj-1VbIxQJgjTAJ2vM30mtWdhOrCMaspeqvra99PHjvzHMgdWPxnle33A/exec", {
       method: "POST",
-      mode: "cors",
+      mode: "no-cors",
       body: data
     })
       .then(res => res.text())
