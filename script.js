@@ -1,35 +1,34 @@
-  // URLパラメータから選択された日時を取得
-  document.addEventListener("DOMContentLoaded", function () {
-
+document.addEventListener("DOMContentLoaded", function () {
   const params = new URLSearchParams(window.location.search);
   const selectedDate = params.get("date");
   const selectedTime = params.get("time");
 
   function formatJapaneseDate(dateStr, timeStr) {
-  const date = new Date(`${dateStr}T${timeStr}`);
-  const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const weekday = weekdays[date.getDay()];
-  return `${month}/${day}（${weekday}） ${timeStr}`;
-}
+    const date = new Date(`${dateStr}T${timeStr}`);
+    const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const weekday = weekdays[date.getDay()];
+    return `${month}/${day}（${weekday}） ${timeStr}`;
+  }
 
-   if (selectedDate && selectedTime) {
-    const displayText = formatJapaneseDate(selectedDate, selectedTime);
-    document.getElementById("selectedDateTime").textContent = displayText;
+  // 日時表示（未選択も含めて）
+  const displayText = (selectedDate && selectedTime)
+    ? formatJapaneseDate(selectedDate, selectedTime)
+    : "未選択";
+  document.getElementById("selectedDateTime").textContent = displayText;
 
-    // hiddenフィールドにセット
-    const dateInput = document.querySelector('input[name="date"]');
-    const timeInput = document.querySelector('input[name="time"]');
+  // hiddenフィールドにセット（あれば）
+  const dateInput = document.querySelector('input[name="date"]');
+  const timeInput = document.querySelector('input[name="time"]');
+  if (dateInput && timeInput && selectedDate && selectedTime) {
+    dateInput.value = selectedDate;
+    timeInput.value = selectedTime;
+  }
 
-    if (dateInput && timeInput) {
-      dateInput.value = selectedDate;
-      timeInput.value = selectedTime;
-    }
-
-  // 送信ボタンのクリック処理
+  // ? submitBtn のイベント登録は if の外に！
   document.getElementById("submitBtn").addEventListener("click", function () {
-	console.log("送信ボタンがクリックされました"); 
+    console.log("送信ボタンがクリックされました");
     this.disabled = true;
     document.getElementById("sendingDialog").style.display = "block";
 
@@ -42,31 +41,26 @@
     }
 
     data.append("action", "create");
-    data.append("selectedDateTime", `${selectedDate} ${selectedTime}`);
-	
-	console.log("fetch開始"); 
+    data.append("selectedDateTime", `${selectedDate || ""} ${selectedTime || ""}`);
+
+    console.log("fetch開始");
 
     fetch("https://script.google.com/macros/s/AKfycbzKQ4-J2TASlIj-1VbIxQJgjTAJ2vM30mtWdhOrCMaspeqvra99PHjvzHMgdWPxnle33A/exec", {
       method: "POST",
-	mode: "cors",
-            body: data
+      mode: "cors",
+      body: data
     })
       .then(res => res.text())
       .then(text => {
-
-	console.log("fetch成功:", text); 
-
+        console.log("fetch成功:", text);
         document.getElementById("sendingDialog").style.display = "none";
         alert(text);
-        // 必要なら画面遷移などもここで
       })
       .catch(err => {
-
-	console.error("fetchエラー:", err);
-
+        console.error("fetchエラー:", err);
         document.getElementById("sendingDialog").style.display = "none";
         this.disabled = false;
         alert("エラーが発生しました：" + err.message);
       });
-    });
   });
+});
