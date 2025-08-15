@@ -1,5 +1,5 @@
   // URLパラメータから選択された日時を取得
-  //document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
 
   const params = new URLSearchParams(window.location.search);
   const selectedDate = params.get("date");
@@ -14,10 +14,14 @@
   return `${month}/${day}（${weekday}） ${timeStr}`;
 }
 
-  if (selectedDate && selectedTime) {
-  const displayText = formatJapaneseDate(selectedDate, selectedTime);
-  document.getElementById("selectedDateTime").textContent = displayText;
-}
+   if (selectedDate && selectedTime) {
+    const displayText = formatJapaneseDate(selectedDate, selectedTime);
+    document.getElementById("selectedDateTime").textContent = displayText;
+
+    // hiddenフィールドにセット
+    document.querySelector('input[name="date"]').value = selectedDate;
+    document.querySelector('input[name="time"]').value = selectedTime;
+  }
 
   // 送信ボタンのクリック処理
   document.getElementById("submitBtn").addEventListener("click", function () {
@@ -59,4 +63,5 @@
         this.disabled = false;
         alert("エラーが発生しました：" + err.message);
       });
+    });
   });
