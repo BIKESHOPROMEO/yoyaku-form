@@ -19,9 +19,13 @@
     document.getElementById("selectedDateTime").textContent = displayText;
 
     // hiddenフィールドにセット
-    document.querySelector('input[name="date"]').value = selectedDate;
-    document.querySelector('input[name="time"]').value = selectedTime;
-  }
+    const dateInput = document.querySelector('input[name="date"]');
+    const timeInput = document.querySelector('input[name="time"]');
+
+    if (dateInput && timeInput) {
+      dateInput.value = selectedDate;
+      timeInput.value = selectedTime;
+    }
 
   // 送信ボタンのクリック処理
   document.getElementById("submitBtn").addEventListener("click", function () {
@@ -42,8 +46,9 @@
 	
 	console.log("fetch開始"); 
 
-    fetch("https://script.google.com/macros/s/AKfycbwspV-0AlfTcuB3PlTMKmzot-a0b9h0Kv3zRyMpmJZWvRWorbfaNBVxNwvXm2DXMasO/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbzKQ4-J2TASlIj-1VbIxQJgjTAJ2vM30mtWdhOrCMaspeqvra99PHjvzHMgdWPxnle33A/exec", {
       method: "POST",
+	mode: "cors",
             body: data
     })
       .then(res => res.text())
