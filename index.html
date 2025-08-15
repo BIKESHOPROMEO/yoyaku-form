@@ -12,7 +12,11 @@
 
   <p>◎選択された日時：<span id="selectedDateTime" class="datetime-display">未選択</span></p>
 
+
   <form id="reservationForm">
+	<input type="hidden" name="date" value="">
+	<input type="hidden" name="time" value="">
+
     <label>お名前（フルネームでご記入ください。）<br>
       <input type="text" name="name" required>
     </label>
@@ -26,7 +30,7 @@
     </label>
 
     <label>車種（可能であれば排気量もご記入ください。）<br>
-      <input type="text" name="carModel">
+      <input type="text" name="carModel" required>
     </label>
 
     <label>ご希望作業内容<br>
@@ -42,8 +46,7 @@
     </label>
 
     <label>備考（ご希望や事前連絡事項など）<br>
-      <textarea name="note" rows="4" placeholder="先に伝えたい事やご希望があればご記入ください。 部品などの在庫確認は、別途LINEやお電話にてお問い合わせください。
-"></textarea>
+      <textarea name="note" rows="4" placeholder="先に伝えたい事やご希望があればご記入ください。部品などの在庫確認は、別途LINEやお電話にてお問い合わせください。"></textarea>
     </label>
 
     <button type="button" id="submitBtn">予約を送信</button>
