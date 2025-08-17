@@ -9,12 +9,13 @@ export default async function handler(req, res) {
   }
 
   try {
-    await fetch("https://script.google.com/macros/s/AKfycbzKQ4-J2TASlIj-1VbIxQJgjTAJ2vM30mtWdhOrCMaspeqvra99PHjvzHMgdWPxnle33A/exec", {
+    const gasRes = await fetch("https://script.google.com/macros/s/AKfycbzKQ4-J2TASlIj-1VbIxQJgjTAJ2vM30mtWdhOrCMaspeqvra99PHjvzHMgdWPxnle33A/exec", {
       method: "POST",
       body: params,
     });
 
-    res.status(200).json({ message: "予約が送信されました！" });
+    const result = await gasRes.json(); // ← GASのJSONレスポンスを受け取る
+    res.status(200).json(result); // ← そのままフロントに返す
   } catch (error) {
     console.error("GAS送信エラー:", error);
     res.status(500).json({ message: "送信に失敗しました。" });
