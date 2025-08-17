@@ -14,7 +14,7 @@ document.getElementById("submitBtn").addEventListener("click", async function ()
   data.selectedDateTime = `${selectedDate || ""} ${selectedTime || ""}`;
 
   try {
-    const response = await fetch("/api/reserva", {
+    const response = await fetch("/api/yoyaku-form", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
