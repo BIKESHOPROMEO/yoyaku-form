@@ -15,12 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 表示用テキスト更新
   const displayText = (selectedDate && selectedTime)
-    ? `${selectedDate} ${selectedTime}`
-    : "未選択";
-  document.getElementById("selectedDateTime").textContent = displayText;
+  ? formatJapaneseDate(selectedDate, selectedTime)
+  : "未選択";
 
-  // 青色で強調表示
-  displayEl.style.color = "#007BFF"; // Bootstrap風の青色
+  const displayEl = document.getElementById("selectedDateTime");
+   displayEl.textContent = displayText;
+   displayEl.style.color = "#007BFF";  // Bootstrap風の青色
 
   // hiddenフィールドに値をセット
   const dateInput = document.querySelector('input[name="date"]');
