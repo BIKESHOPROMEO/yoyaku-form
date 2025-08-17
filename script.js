@@ -11,7 +11,7 @@ document.getElementById("submitBtn").addEventListener("click", async function ()
   }
 
   data.action = "create";
-  data.selectedDateTime = `${selectedDate || ""} ${selectedTime || ""}`;
+  data.selectedDateTime = `${data.date || ""} ${data.time || ""}`;
 
   try {
     const response = await fetch("/api/yoyaku-form", {
