@@ -3,11 +3,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const selectedDate = params.get("date");
   const selectedTime = params.get("time");
 
+  // 日付を「8/22（金）」形式に変換する関数
+  function formatJapaneseDate(dateStr, timeStr) {
+    const date = new Date(`${dateStr}T${timeStr}`);
+    const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const weekday = weekdays[date.getDay()];
+    return `${month}/${day}（${weekday}） ${timeStr}`;
+  }
+
   // 表示用テキスト更新
   const displayText = (selectedDate && selectedTime)
     ? `${selectedDate} ${selectedTime}`
     : "未選択";
   document.getElementById("selectedDateTime").textContent = displayText;
+
+  // 青色で強調表示
+  displayEl.style.color = "#007BFF"; // Bootstrap風の青色
 
   // hiddenフィールドに値をセット
   const dateInput = document.querySelector('input[name="date"]');
