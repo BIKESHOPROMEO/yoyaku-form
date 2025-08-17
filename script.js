@@ -1,66 +1,35 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const params = new URLSearchParams(window.location.search);
-  const selectedDate = params.get("date");
-  const selectedTime = params.get("time");
+document.getElementById("submitBtn").addEventListener("click", async function () {
+  this.disabled = true;
+  document.getElementById("sendingDialog").style.display = "block";
 
-  function formatJapaneseDate(dateStr, timeStr) {
-    const date = new Date(`${dateStr}T${timeStr}`);
-    const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const weekday = weekdays[date.getDay()];
-    return `${month}/${day}（${weekday}） ${timeStr}`;
+  const form = document.getElementById("reservationForm");
+  const formData = new FormData(form);
+  const data = {};
+
+  for (const [key, value] of formData.entries()) {
+    data[key] = value;
   }
 
-  // 日時表示（未選択も含めて）
-  const displayText = (selectedDate && selectedTime)
-    ? formatJapaneseDate(selectedDate, selectedTime)
-    : "未選択";
-  document.getElementById("selectedDateTime").textContent = displayText;
+  data.action = "create";
+  data.selectedDateTime = `${selectedDate || ""} ${selectedTime || ""}`;
 
-  // hiddenフィールドにセット（あれば）
-  const dateInput = document.querySelector('input[name="date"]');
-  const timeInput = document.querySelector('input[name="time"]');
-  if (dateInput && timeInput && selectedDate && selectedTime) {
-    dateInput.value = selectedDate;
-    timeInput.value = selectedTime;
-  }
-
-  // ? submitBtn のイベント登録は if の外に！
-  document.getElementById("submitBtn").addEventListener("click", function () {
-    console.log("送信ボタンがクリックされました");
-    this.disabled = true;
-    document.getElementById("sendingDialog").style.display = "block";
-
-    const form = document.getElementById("reservationForm");
-    const formData = new FormData(form);
-    const data = new URLSearchParams();
-
-    for (const [key, value] of formData.entries()) {
-      data.append(key, value);
-    }
-
-    data.append("action", "create");
-    data.append("selectedDateTime", `${selectedDate || ""} ${selectedTime || ""}`);
-
-    console.log("fetch開始");
-
-    fetch("https://script.google.com/macros/s/AKfycbzKQ4-J2TASlIj-1VbIxQJgjTAJ2vM30mtWdhOrCMaspeqvra99PHjvzHMgdWPxnle33A/exec", {
+  try {
+    const response = await fetch("/api/reserva", {
       method: "POST",
-      mode: "no-cors",
-      body: data
-    })
-      .then(res => res.text())
-      .then(text => {
-        console.log("fetch成功:", text);
-        document.getElementById("sendingDialog").style.display = "none";
-        alert(text);
-      })
-      .catch(err => {
-        console.error("fetchエラー:", err);
-        document.getElementById("sendingDialog").style.display = "none";
-        this.disabled = false;
-        alert("エラーが発生しました：" + err.message);
-      });
-  });
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+    console.log("fetch成功:", result);
+    alert(result.message || "予約が送信されました！");
+  } catch (err) {
+    console.error("fetchエラー:", err);
+    alert("エラーが発生しました：" + err.message);
+    this.disabled = false;
+  } finally {
+    document.getElementById("sendingDialog").style.display = "none";
+  }
 });
