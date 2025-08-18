@@ -3,21 +3,33 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
-  const params = new URLSearchParams();
-  for (const [key, value] of Object.entries(req.body)) {
-    params.append(key, value);
-  }
+  const GAS_URL = "https://script.google.com/macros/s/AKfycb.../exec"; // ←あなたのGAS URL
 
   try {
-    const gasRes = await fetch("https://script.google.com/macros/s/AKfycbzKQ4-J2TASlIj-1VbIxQJgjTAJ2vM30mtWdhOrCMaspeqvra99PHjvzHMgdWPxnle33A/exec", {
+    const gasRes = await fetch(GAS_URL, {
       method: "POST",
-      body: params,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(req.body),
     });
 
-    const result = await gasRes.json();
-    res.status(200).json(result);
-  } catch (error) {
-    console.error("GAS送信エラー:", error);
-    res.status(500).json({ message: "送信に失敗しました。" });
+    // ?? ここで text() で受けてログ確認
+    const text = await gasRes.text();
+    console.log("GASレスポンス:", text);
+
+    // JSONとして返せるか試す
+    try {
+      const result = JSON.parse(text);
+      return res.status(200).json(result);
+    } catch (err) {
+      return res.status(500).json({
+        message: "GASからのレスポンスがJSONではありません",
+        raw: text,
+      });
+    }
+  } catch (err) {
+    console.error("Vercel Functionsエラー:", err);
+    return res.status(500).json({ message: "Vercel Functionsエラー", error: err.message });
   }
 }
