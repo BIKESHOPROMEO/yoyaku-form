@@ -47,13 +47,13 @@ document.getElementById("submitBtn").addEventListener("click", async function ()
   data.selectedDateTime = `${data.date || ""} ${data.time || ""}`;
 
   try {
-    const response = await fetch(GAS_URL, {
-  	method: "POST",
-  	headers: {
-    	"Content-Type": "application/json",
+    const response = await fetch("/api/yoyaku-form", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
   },
-  	body: JSON.stringify(req.body),
-  });
+  body: JSON.stringify(data),
+});
 
     const result = await response.json();
     console.log("fetch成功:", result);
