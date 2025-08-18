@@ -14,10 +14,10 @@ export default async function handler(req, res) {
       body: params,
     });
 
-    const result = await gasRes.json(); // © GAS‚ÌJSONƒŒƒXƒ|ƒ“ƒX‚ğó‚¯æ‚é
-    res.status(200).json(result); // © ‚»‚Ì‚Ü‚Üƒtƒƒ“ƒg‚É•Ô‚·
+    const result = await gasRes.json(); // â† GASã®JSONãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚’å—ã‘å–ã‚‹
+    res.status(200).json(result); // â† ãã®ã¾ã¾ãƒ•ãƒ­ãƒ³ãƒˆã«è¿”ã™
   } catch (error) {
-    console.error("GAS‘—MƒGƒ‰[:", error);
-    res.status(500).json({ message: "‘—M‚É¸”s‚µ‚Ü‚µ‚½B" });
+    console.error("GASé€ä¿¡ã‚¨ãƒ©ãƒ¼:", error);
+    res.status(500).json({ message: "é€ä¿¡ã«å¤±æ•—ã—ã¾ã—ãŸã€‚" });
   }
 }
