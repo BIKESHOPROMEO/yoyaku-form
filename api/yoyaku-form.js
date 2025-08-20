@@ -1,4 +1,7 @@
 // 【APIフォルダ内yoyaku-form.js】
+
+console.log("★★★★★★ リクエストが届きました ★★★★★★"); 
+
 export default async function handler(req, res) {
 	console.log("リクエスト受信:", req.body); // ← この行を追加
 
