@@ -1,5 +1,7 @@
 // 【APIフォルダ内yoyaku-form.js】
 export default async function handler(req, res) {
+	console.log("リクエスト受信:", req.body); // ← この行を追加
+
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
