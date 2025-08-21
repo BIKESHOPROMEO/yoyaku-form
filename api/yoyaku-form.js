@@ -1,7 +1,5 @@
 // 【APIフォルダ内yoyaku-form.js】
 
-console.log("★★★★★★ リクエストが届きました ★★★★★★");
-
 export default async function handler(req, res) {
     console.log("リクエスト受信:", req.body); // ← req.bodyの内容を確認
 
@@ -14,17 +12,14 @@ export default async function handler(req, res) {
     // req.bodyが直接JSONオブジェクトとして受け取られるので、そのまま使う
     const data = req.body;
 
-    // GASに送信するためのFormDataを作成
-    const params = new URLSearchParams();
-    for (const [key, value] of Object.entries(data)) {
-        params.append(key, value);
-    }
-
     try {
         const gasRes = await fetch(GAS_URL, {
-            method: "POST",
-            body: params, // ← URLSearchParams形式で送信
-        });
+    	method: "POST",
+    	headers: {
+       	 "Content-Type": "application/json", // ← 追加
+    },
+    	body: JSON.stringify(data), // ← URLSearchParamsではなくJSON形式で送信
+	});
 
         const text = await gasRes.text();
         console.log("GASレスポンス:", text);
