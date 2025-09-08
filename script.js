@@ -1,5 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  const closeBtn = document.getElementById("closeBrowserBtn");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      window.open('', '_self');
+      window.close();
+    });
+  }
+
   const params = new URLSearchParams(window.location.search);
   const selectedDate = params.get("date");
   const selectedTime = params.get("time");
@@ -76,3 +84,4 @@ document.getElementById("submitBtn").addEventListener("click", async function ()
     } finally {
       document.getElementById("sendingDialog").style.display = "none";
  }
+});
