@@ -1,13 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  //const closeBtn = document.getElementById("closeBrowserBtn");
-  //if (closeBtn) {
-   // closeBtn.addEventListener("click", () => {
-      //window.open('', '_self');
-      //window.close();
-   // });
- // }
-
   const params = new URLSearchParams(window.location.search);
   const selectedDate = params.get("date");
   const selectedTime = params.get("time");
@@ -26,6 +18,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const displayText = (selectedDate && selectedTime)
   ? formatJapaneseDate(selectedDate, selectedTime)
   : "未選択";
+
+  const closeBtn = document.getElementById("closeBrowserBtn");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      window.open('', '_self');
+      window.close();
+    });
+  }
+
 
   const displayEl = document.getElementById("selectedDateTime");
    displayEl.textContent = displayText;
