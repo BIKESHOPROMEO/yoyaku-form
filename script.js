@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const params = new URLSearchParams(window.location.search);
-  const selectedDate = params.get("date");
-  const selectedTime = params.get("time");
+  data.date = data.date || params.get("date");
+  data.time = data.time || params.get("time");
 
   // 日付を「8/22（金）」形式に変換する関数
   function formatJapaneseDate(dateStr, timeStr) {
