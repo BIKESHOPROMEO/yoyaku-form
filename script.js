@@ -1,4 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+  const closeBtn = document.getElementById("closeBrowserBtn");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      window.open('', '_self');
+      window.close();
+    });
+  }
+
   const params = new URLSearchParams(window.location.search);
   const selectedDate = params.get("date");
   const selectedTime = params.get("time");
@@ -58,11 +67,11 @@ document.getElementById("submitBtn").addEventListener("click", async function ()
     const result = await response.json();
     console.log("fetch成功:", result);
     alert(result.message || "予約が送信されました！");
-  } catch (err) {
-    console.error("fetchエラー:", err);
-    alert("エラーが発生しました：" + err.message);
-    this.disabled = false;
-  } finally {
-    document.getElementById("sendingDialog").style.display = "none";
-  }
-});
+    document.getElementById("completeDialog").style.display = "block";
+    } catch (err) {
+      console.error("fetchエラー:", err);
+      alert("エラーが発生しました：" + err.message);
+      this.disabled = false;
+    } finally {
+      document.getElementById("sendingDialog").style.display = "none";
+ }
