@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const closeBtn = document.getElementById("closeBrowserBtn");
-  if (closeBtn) {
-    closeBtn.addEventListener("click", () => {
-      window.open('', '_self');
-      window.close();
-    });
-  }
+  //const closeBtn = document.getElementById("closeBrowserBtn");
+  //if (closeBtn) {
+   // closeBtn.addEventListener("click", () => {
+      //window.open('', '_self');
+      //window.close();
+   // });
+ // }
 
   const params = new URLSearchParams(window.location.search);
   const selectedDate = params.get("date");
