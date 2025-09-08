@@ -3,13 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const selectedDate = params.get("date");
   const selectedTime = params.get("time");
 
-  const closeBtn = document.getElementById("closeBrowserBtn");
-  if (closeBtn) {
-    closeBtn.addEventListener("click", () => {
-      window.open('', '_self');
-      window.close();
-    });
-  }
 
   // 日付を「8/22（金）」形式に変換する関数
   function formatJapaneseDate(dateStr, timeStr) {
