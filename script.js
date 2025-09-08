@@ -8,10 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const params = new URLSearchParams(window.location.search);
-  data.date = data.date || params.get("date");
-  data.time = data.time || params.get("time");
-
   // 日付を「8/22（金）」形式に変換する関数
   function formatJapaneseDate(dateStr, timeStr) {
     const date = new Date(`${dateStr}T${timeStr}`);
@@ -26,15 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const displayText = (selectedDate && selectedTime)
   ? formatJapaneseDate(selectedDate, selectedTime)
   : "未選択";
-
-  const closeBtn = document.getElementById("closeBrowserBtn");
-  if (closeBtn) {
-    closeBtn.addEventListener("click", () => {
-      window.open('', '_self');
-      window.close();
-    });
-  }
-
 
   const displayEl = document.getElementById("selectedDateTime");
    displayEl.textContent = displayText;
@@ -62,6 +49,10 @@ document.getElementById("submitBtn").addEventListener("click", async function ()
   }
 
   data.action = "create";
+
+  const params = new URLSearchParams(window.location.search);
+  data.date = data.date || params.get("date");
+  data.time = data.time || params.get("time");
   data.selectedDateTime = `${data.date || ""} ${data.time || ""}`;
 
   try {
