@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const selectedDate = params.get("date");
+  const selectedTime = params.get("time");
 
   const closeBtn = document.getElementById("closeBrowserBtn");
   if (closeBtn) {
