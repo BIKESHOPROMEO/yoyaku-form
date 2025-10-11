@@ -64,7 +64,7 @@ document.getElementById("submitBtn").addEventListener("click", async function ()
   carModel: "車種",
   workType: "作業内容",
 };
-    alert("未入力の項目があります：\n" + missingFields.map(f => `・${f}`).join("\n"));
+    alert("未入力の項目があります：\n" + missingFields.map(f => `・${fieldLabels[f]}`).join("\n"));
     this.disabled = false;
     document.getElementById("sendingDialog").style.display = "none";
     return;
