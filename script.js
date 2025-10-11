@@ -44,7 +44,7 @@ document.getElementById("submitBtn").addEventListener("click", async function ()
     data[key] = value;
   }
 
-  data.action = "create";
+  data.action = "new";
 
   const params = new URLSearchParams(window.location.search);
   data.date = data.date || params.get("date");
