@@ -41,7 +41,7 @@ document.getElementById("submitBtn").addEventListener("click", async function ()
   const data = {};
 
   for (const [key, value] of formData.entries()) {
-    data[key] = value;
+    data[key] = value.trim();
   }
 
   data.action = "new";
@@ -50,6 +50,24 @@ document.getElementById("submitBtn").addEventListener("click", async function ()
   data.date = data.date || params.get("date");
   data.time = data.time || params.get("time");
   data.selectedDateTime = `${data.date || ""} ${data.time || ""}`;
+
+  const requiredFields = ["date", "time", "name", "phone", "carModel", "workType"];
+  const missingFields = requiredFields.filter(field => !data[field]);
+  
+  if (missingFields.length > 0) {
+    const fieldLabels = {
+  date: "日付",
+  time: "時間",
+  name: "お客様名",
+  phone: "電話番号",
+  carModel: "車種",
+  workType: "作業内容",
+};
+    alert("未入力の項目があります：\n" + missingFields.map(f => `・${f}`).join("\n"));
+    this.disabled = false;
+    document.getElementById("sendingDialog").style.display = "none";
+    return;
+  }
 
   try {
     const response = await fetch("/api/yoyaku-form", {
