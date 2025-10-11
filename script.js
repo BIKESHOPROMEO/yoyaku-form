@@ -51,15 +51,16 @@ document.getElementById("submitBtn").addEventListener("click", async function ()
   data.time = data.time || params.get("time");
   data.selectedDateTime = `${data.date || ""} ${data.time || ""}`;
 
-  const requiredFields = ["date", "time", "name", "phone", "carModel", "workType"];
+  const requiredFields = ["date", "time", "name", "phone", "email", "carModel", "workType"];
   const missingFields = requiredFields.filter(field => !data[field]);
-  
+
   if (missingFields.length > 0) {
     const fieldLabels = {
   date: "日付",
   time: "時間",
   name: "お客様名",
   phone: "電話番号",
+  email: "メールアドレス",
   carModel: "車種",
   workType: "作業内容",
 };
