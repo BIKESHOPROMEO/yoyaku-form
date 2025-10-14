@@ -13,6 +13,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+    // 電話番号 → 数字以外を弾く
+  const phoneInput = document.querySelector('input[name="phone"]');
+  if (phoneInput) {
+    phoneInput.addEventListener("input", () => {
+      phoneInput.value = phoneInput.value.replace(/[^\d]/g, "");
+    });
+  }
+
   // 日付を「8/22（金）」形式に変換する関数
   function formatJapaneseDate(dateStr, timeStr) {
     const date = new Date(`${dateStr}T${timeStr}`);

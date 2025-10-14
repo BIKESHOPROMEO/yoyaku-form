@@ -22,14 +22,16 @@
     </label>
 
     <label>電話番号（ハイフン無しでご記入ください。）<br> <span class="required-mark">※入力必須</span> <br>
-      <input
- 	 type="tel"
-  	name="phone"
-  	placeholder="09012345678"
-  	pattern="0\d{9,10}"
-  	maxlength="11"
-  	required placeholder="例：09012345678">
-    </label>
+  <input
+    type="text"
+    name="phone"
+    inputmode="numeric"
+    pattern="\d{10,11}"
+    maxlength="11"
+    required
+    placeholder="09012345678">
+</label>
+
 
     <label>メールアドレス<br> <span class="required-mark">※入力必須</span> <br>
       <input type="email" name="email" required>
