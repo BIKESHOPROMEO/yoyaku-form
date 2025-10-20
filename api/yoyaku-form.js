@@ -7,7 +7,7 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: "Method Not Allowed" });
     }
 
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbyDMFIYDqB_oE6Dybo9wH1LpePIMPwjjcPjmcAuEps32T344pTdETiyjlKA6Sb5YEDaEQ/exec";
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbw0xAlekbbME08YaiMQMMB5ngfCDaMEWXicbyU1VlFl8quo1srYmibMD6BPWjdzj_Tb7g/exec";
 
     // req.bodyが直接JSONオブジェクトとして受け取られるので、そのまま使う
     const data = req.body;
