@@ -61,7 +61,7 @@ document.getElementById("submitBtn").addEventListener("click", async function ()
     data[key] = value.trim();
   }
 
-  data.action = "new";
+  data.action = "newrese";
 
   const params = new URLSearchParams(window.location.search);
   data.date = data.date || params.get("date");
