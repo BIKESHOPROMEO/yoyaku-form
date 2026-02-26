@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const selectedDate = params.get("date");
   const selectedTime = params.get("time");
+  const lineIdFromUrl = params.get("lineId");
   
   const nameInput = document.querySelector('input[name="name"]');
   const nameDisplay = document.getElementById("nameWithHonorific");
@@ -66,6 +67,8 @@ document.getElementById("submitBtn").addEventListener("click", async function ()
   const params = new URLSearchParams(window.location.search);
   data.date = data.date || params.get("date");
   data.time = data.time || params.get("time");
+  data.lineId = params.get("lineId") || "";
+  
   data.selectedDateTime = `${data.date || ""} ${data.time || ""}`;
 
   const requiredFields = ["date", "time", "name", "phone", "email", "carModel", "workType"];
